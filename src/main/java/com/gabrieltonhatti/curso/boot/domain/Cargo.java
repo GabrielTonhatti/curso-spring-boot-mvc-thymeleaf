@@ -1,16 +1,22 @@
 package com.gabrieltonhatti.curso.boot.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
 @Table(name = "cargos")
 public class Cargo extends AbstractEntity<Long> {
 
+    @NotBlank(message = "O nome do cargo é obrigatório.")
+    @Size(max = 60, message = "O nome do cargo deve ter no máximo 60 caracteres.")
     @Column(name = "nome", nullable = false, unique = true, length = 60)
     private String nome;
 
     @ManyToOne
+    @NotNull(message = "Selecione o departamento relativo ao cargo.")
     @JoinColumn(name = "id_departamento_fk")
     private Departamento departamento;
 
