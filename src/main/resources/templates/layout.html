@@ -4,19 +4,19 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title>Spring-Boot Básico</title>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <link rel="icon" href="/image/favicon.png" />
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="icon" href="/image/favicon.png"/>
 
     <!-- Bootstrap core CSS -->
-    <link href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/webjars/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" rel="stylesheet" />
+    <link href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/webjars/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" rel="stylesheet"/>
 
     <!-- Custom styles for this template -->
-    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet"/>
 </head>
 <body>
     <header th:replace="fragments/header :: cabecalho">
@@ -47,6 +47,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+        let url = '';
+
+        $('button[id*="btn_"]').click(function () {
+            url = "http://localhost:8080/" + $(this).attr("id").split("_")[1];
+        });
+
+        $('#ok_confirm').click(function () {
+            document.location.href = url;
+        });
 
         $(function () {
             $('[data-toggle="popover"]').popover();
