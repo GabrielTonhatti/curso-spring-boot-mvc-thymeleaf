@@ -39,19 +39,19 @@ public class FuncionarioController {
     @GetMapping("/listar")
     public String listar(ModelMap modelMap) {
         modelMap.addAttribute("funcionarios", funcionarioService.buscarTodos());
-        return "/funcionario/lista";
+        return "funcionario/lista";
     }
 
     @GetMapping("/cadastrar")
     public String cadastrar(Funcionario funcionario) {
-        return "/funcionario/cadastro";
+        return "funcionario/cadastro";
     }
 
     @PostMapping("/salvar")
     public String salvar(@Valid Funcionario funcionario, BindingResult result, RedirectAttributes attr) {
 
         if (result.hasErrors()) {
-            return "/funcionario/cadastro";
+            return "funcionario/cadastro";
         }
 
         funcionarioService.salvar(funcionario);
@@ -69,7 +69,7 @@ public class FuncionarioController {
     public String editar(@Valid Funcionario funcionario, BindingResult result, RedirectAttributes attr) {
 
         if (result.hasErrors()) {
-            return "/funcionario/cadastro";
+            return "funcionario/cadastro";
         }
 
         funcionarioService.editar(funcionario);
@@ -87,13 +87,13 @@ public class FuncionarioController {
     @GetMapping("/buscar/nome")
     public String getPorNome(@RequestParam("nome") String nome, ModelMap modelMap) {
         modelMap.addAttribute("funcionarios", funcionarioService.buscarPorNome(nome));
-        return "/funcionario/lista";
+        return "funcionario/lista";
     }
 
     @GetMapping("/buscar/cargo")
     public String getPorCargo(@RequestParam("id") Long id, ModelMap modelMap) {
         modelMap.addAttribute("funcionarios", funcionarioService.buscarPorCargo(id));
-        return "/funcionario/lista";
+        return "funcionario/lista";
     }
 
     @GetMapping("/buscar/data")
@@ -103,7 +103,7 @@ public class FuncionarioController {
             ModelMap modelMap
     ) {
         modelMap.addAttribute("funcionarios", funcionarioService.buscarPorDatas(entrada, saida));
-        return "/funcionario/lista";
+        return "funcionario/lista";
     }
 
     @ModelAttribute("cargos")
