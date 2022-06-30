@@ -2,6 +2,7 @@ package com.gabrieltonhatti.curso.boot.service;
 
 import com.gabrieltonhatti.curso.boot.dao.CargoDao;
 import com.gabrieltonhatti.curso.boot.domain.Cargo;
+import com.gabrieltonhatti.curso.boot.util.PaginacaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,5 +46,10 @@ public class CargoServiceImpl implements CargoService {
     @Override
     public boolean cargoTemFuncionarios(Long id) {
         return !buscarPorId(id).getFuncionarios().isEmpty();
+    }
+
+    @Override
+    public PaginacaoUtil<Cargo> buscarPorPagina(int pagina) {
+        return dao.buscaPaginada(pagina);
     }
 }

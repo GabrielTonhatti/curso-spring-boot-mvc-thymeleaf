@@ -4,6 +4,7 @@ import com.gabrieltonhatti.curso.boot.domain.Cargo;
 import com.gabrieltonhatti.curso.boot.domain.Departamento;
 import com.gabrieltonhatti.curso.boot.service.CargoService;
 import com.gabrieltonhatti.curso.boot.service.DepartamentoService;
+import com.gabrieltonhatti.curso.boot.util.PaginacaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/cargos")
@@ -25,8 +27,12 @@ public class CargoController {
     private DepartamentoService departamentoService;
 
     @GetMapping("/listar")
-    public String listar(ModelMap model) {
-        model.addAttribute("cargos", cargoService.buscarTodos());
+    public String listar(ModelMap model, @RequestParam("page") Optional<Integer> page) {
+        int paginaAtual = page.orElse(1);
+
+        PaginacaoUtil<Cargo> pageCargo = cargoService.buscarPorPagina(paginaAtual);
+
+        model.addAttribute("pageCargo", pageCargo);
         return "cargo/lista";
     }
 
@@ -38,7 +44,7 @@ public class CargoController {
     @PostMapping("/salvar")
     public String salvar(@Valid Cargo cargo, BindingResult result, RedirectAttributes attr) {
 
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             return "cargo/cadastro";
         }
 
@@ -54,7 +60,7 @@ public class CargoController {
     }
 
     @PostMapping("/editar")
-    public String editar(@Valid Cargo cargo, BindingResult result,RedirectAttributes attr) {
+    public String editar(@Valid Cargo cargo, BindingResult result, RedirectAttributes attr) {
 
         if (result.hasErrors()) {
             return "cargo/cadastro";

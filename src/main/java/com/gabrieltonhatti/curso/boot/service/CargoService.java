@@ -1,6 +1,7 @@
 package com.gabrieltonhatti.curso.boot.service;
 
 import com.gabrieltonhatti.curso.boot.domain.Cargo;
+import com.gabrieltonhatti.curso.boot.util.PaginacaoUtil;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface CargoService {
     List<Cargo> buscarTodos();
 
     boolean cargoTemFuncionarios(Long id);
+
+    PaginacaoUtil<Cargo> buscarPorPagina(int pagina);
 }

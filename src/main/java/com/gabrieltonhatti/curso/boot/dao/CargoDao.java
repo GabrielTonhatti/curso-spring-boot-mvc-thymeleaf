@@ -1,6 +1,7 @@
 package com.gabrieltonhatti.curso.boot.dao;
 
 import com.gabrieltonhatti.curso.boot.domain.Cargo;
+import com.gabrieltonhatti.curso.boot.util.PaginacaoUtil;
 
 import java.util.List;
 
@@ -16,4 +17,5 @@ public interface CargoDao {
 
     List<Cargo> findAll();
 
+    PaginacaoUtil<Cargo> buscaPaginada(int pagina);
 }
