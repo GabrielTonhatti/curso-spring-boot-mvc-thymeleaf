@@ -6,6 +6,8 @@
 
 <!--/*@thymesVar id="cargos" type="java.util.List<com.gabrieltonhatti.curso.boot.domain.Cargo>"*/-->
 <!--/*@thymesVar id="c" type="com.gabrieltonhatti.curso.boot.domain.Cargo"*/-->
+<!--/*@thymesVar id="asc" type="java.lang.String"*/-->
+<!--/*@thymesVar id="desc" type="java.lang.String"*/-->
 
 <head>
     <meta charset="UTF-8"/>
@@ -38,7 +40,15 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Cargo</th>
+                        <th>
+                            <a tabindex="-1" th:href="@{/cargos/listar(page=${pageCargo.pagina}, dir=desc)}">
+                                <span class="oi oi-arrow-bottom"></span>
+                            </a>
+                            Cargo
+                            <a tabindex="-1" th:href="@{/cargos/listar(page=${pageCargo.pagina}, dir=asc)}">
+                                <span class="oi oi-arrow-top"></span>
+                            </a>
+                        </th>
                         <th>Departamento</th>
                         <th>Ação</th>
                     </tr>
@@ -64,19 +74,24 @@
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
                         <li class="page-item">
-                            <a class="page-link" th:href="@{/cargos/listar(page=${1})}" tabindex="-1">First</a>
+                            <a class="page-link" th:href="@{/cargos/listar(page=${1}, dir=${pageCargo.direcao})}"
+                               tabindex="-1">First</a>
                         </li>
                         <li th:class="${pageCargo.pagina == 1 ? 'page-item disabled' : 'page-item'}">
-                            <a class="page-link" th:href="@{/cargos/listar(page=${pageCargo.pagina - 1})}" tabindex="-1">Prev</a>
+                            <a class="page-link"
+                               th:href="@{/cargos/listar(page=${pageCargo.pagina - 1}, dir=${pageCargo.direcao})}"
+                               tabindex="-1">Prev</a>
                         </li>
                         <li class="page-item">
                             <span class="page-link" th:text="|${pageCargo.pagina} de ${pageCargo.totalDePaginas}|"></span>
                         </li>
                         <li th:class="${pageCargo.pagina == pageCargo.totalDePaginas ? 'page-item disabled' : 'page-item'}">
-                            <a class="page-link" th:href="@{/cargos/listar(page=${pageCargo.pagina + 1})}">Next</a>
+                            <a class="page-link"
+                               th:href="@{/cargos/listar(page=${pageCargo.pagina + 1}, dir=${pageCargo.direcao})}">Next</a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" th:href="@{/cargos/listar(page=${pageCargo.totalDePaginas})}">Last</a>
+                            <a class="page-link"
+                               th:href="@{/cargos/listar(page=${pageCargo.totalDePaginas}, dir=${pageCargo.direcao})}">Last</a>
                         </li>
                     </ul>
                 </nav>
