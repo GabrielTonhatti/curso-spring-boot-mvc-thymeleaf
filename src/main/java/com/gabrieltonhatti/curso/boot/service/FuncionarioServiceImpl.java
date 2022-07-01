@@ -2,6 +2,7 @@ package com.gabrieltonhatti.curso.boot.service;
 
 import com.gabrieltonhatti.curso.boot.dao.FuncionarioDao;
 import com.gabrieltonhatti.curso.boot.domain.Funcionario;
+import com.gabrieltonhatti.curso.boot.util.PaginacaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,5 +68,10 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         } else {
             return new ArrayList<>();
         }
+    }
+
+    @Override
+    public PaginacaoUtil<Funcionario> buscarPorPagina(int pagina, String direcao, String coluna) {
+        return dao.buscaPaginada(pagina, direcao, coluna);
     }
 }

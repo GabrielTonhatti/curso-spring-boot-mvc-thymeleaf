@@ -1,6 +1,8 @@
 package com.gabrieltonhatti.curso.boot.dao;
 
+import com.gabrieltonhatti.curso.boot.domain.Cargo;
 import com.gabrieltonhatti.curso.boot.domain.Funcionario;
+import com.gabrieltonhatti.curso.boot.util.PaginacaoUtil;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -44,5 +46,39 @@ public class FuncionarioDaoImpl extends AbstractDao<Funcionario, Long> implement
                 " ORDER BY f.dataEntrada ASC";
 
         return createQuery(jpql, entrada, saida);
+    }
+
+    @Override
+    public PaginacaoUtil<Funcionario> buscaPaginada(int pagina, String direcao, String coluna) {
+        int tamanho = 5;
+        int inicio = (pagina - 1) * tamanho;
+        String nomeColuna = switch (coluna) {
+            case "nome" -> "f.nome";
+            case "salario" -> "f.salario";
+            case "cargo" -> "f.cargo.nome";
+            case "dataEntrada" -> "f.dataEntrada";
+            case "dataSaida" -> "f.dataSaida";
+            case "departamento" -> "f.cargo.departamento.nome";
+            default -> "";
+        };
+
+
+        String jpql = "SELECT f FROM Funcionario f ORDER BY " + nomeColuna + " " + direcao.toUpperCase();
+        List<Funcionario> cargos = getEntityManager()
+                .createQuery(jpql, Funcionario.class)
+                .setFirstResult(inicio)
+                .setMaxResults(tamanho)
+                .getResultList();
+
+        long totalRegistros = count();
+        long totalDePaginas = (totalRegistros + (tamanho - 1)) / tamanho;
+
+        return new PaginacaoUtil<>(tamanho, pagina, totalDePaginas, direcao, coluna, cargos);
+    }
+
+    public long count() {
+        return getEntityManager()
+                .createQuery("SELECT COUNT(f) FROM Funcionario f", Long.class)
+                .getSingleResult();
     }
 }

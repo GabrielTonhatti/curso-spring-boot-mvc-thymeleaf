@@ -2,6 +2,7 @@ package com.gabrieltonhatti.curso.boot.service;
 
 import com.gabrieltonhatti.curso.boot.dao.DepartamentoDao;
 import com.gabrieltonhatti.curso.boot.domain.Departamento;
+import com.gabrieltonhatti.curso.boot.util.PaginacaoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,5 +48,10 @@ public class DepartamentoServiceImpl implements DepartamentoService {
     @Override
     public boolean departamentoTemCargos(Long id) {
         return !buscarPorId(id).getCargos().isEmpty();
+    }
+
+    @Override
+    public PaginacaoUtil<Departamento> buscarPorPagina(int paginaAtual, String ordem) {
+        return dao.buscaPaginada(paginaAtual, ordem);
     }
 }

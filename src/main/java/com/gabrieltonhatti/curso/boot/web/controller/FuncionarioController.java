@@ -5,6 +5,7 @@ import com.gabrieltonhatti.curso.boot.domain.Funcionario;
 import com.gabrieltonhatti.curso.boot.domain.UF;
 import com.gabrieltonhatti.curso.boot.service.CargoService;
 import com.gabrieltonhatti.curso.boot.service.FuncionarioService;
+import com.gabrieltonhatti.curso.boot.util.PaginacaoUtil;
 import com.gabrieltonhatti.curso.boot.web.validator.FuncionarioValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 
@@ -31,14 +33,23 @@ public class FuncionarioController {
     @Autowired
     private CargoService cargoService;
 
-    @InitBinder
+    @InitBinder("funcionario")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(new FuncionarioValidator());
     }
 
     @GetMapping("/listar")
-    public String listar(ModelMap modelMap) {
-        modelMap.addAttribute("funcionarios", funcionarioService.buscarTodos());
+    public String listar(ModelMap model,
+                         @RequestParam("page") Optional<Integer> page,
+                         @RequestParam("dir") Optional<String> dir,
+                         @RequestParam("coluna") Optional<String> coluna) {
+        int paginaAtual = page.orElse(1);
+        String ordem = dir.orElse("asc");
+        String nomeColuna = coluna.orElse("nome");
+
+        PaginacaoUtil<Funcionario> pageFuncionario = funcionarioService.buscarPorPagina(paginaAtual, ordem, nomeColuna);
+
+        model.addAttribute("pageFuncionario", pageFuncionario);
         return "funcionario/lista";
     }
 

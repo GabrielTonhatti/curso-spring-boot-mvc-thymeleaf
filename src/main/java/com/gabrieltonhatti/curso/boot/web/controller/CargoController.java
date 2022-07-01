@@ -32,7 +32,7 @@ public class CargoController {
                          @RequestParam("dir") Optional<String> dir,
                          @RequestParam("coluna") Optional<String> coluna) {
         int paginaAtual = page.orElse(1);
-        String ordem = dir.orElse("ASC");
+        String ordem = dir.orElse("asc");
         String nomeColuna = coluna.orElse("cargo");
 
         PaginacaoUtil<Cargo> pageCargo = cargoService.buscarPorPagina(paginaAtual, ordem, nomeColuna);
